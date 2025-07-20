@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# This script lists files showing only the part after first dash if any, sorted alphabetically, with 'for_ls' last
+
+files=()
+
+for file in *; do
+  # Skip if hidden file
+  [[ "$file" == .* ]] && continue
+
+  if [[ "$file" == *-* ]]; then
+    # Extract part after first dash
+    files+=("${file#*-}")
+  else
+    files+=("$file")
+  fi
+done
+
+# Sort and print all except 'for_ls' (if present)
+printf "%s\n" "${files[@]}" | sort | grep -v '^for_ls$'
+
+# Always print 'for_ls' last
+echo "for_ls"
